@@ -4,6 +4,7 @@ import java.io.*;
 /**
 * @author Zush18
 **/
+/*asdasdasdasd*/
 
 public class hilo extends Thread {
 	private SocketIO socket;

@@ -25,13 +25,14 @@ public class Request extends Thread {
 					portCLient = 1000;
 				break;
 				case "crypt":
-				hostClient = "localhost";
-				portCLient = 2000;
+					hostClient = "localhost";
+					portCLient = 2000;
 				break;
-				default:
-					url[1] = "406"
 			}
-			socket.sendMsg(url[1]);
+			socketClient = new SocketIO(hostClient,portCLient);
+			socketClient.sendMsg(url[1]);
+			String msgInClient = socketClient.readMsg();
+			socket.sendMsg(msgInClient);
 			socket.close();
 		}catch(Exception ex){
 			socket.sendMsg("500");

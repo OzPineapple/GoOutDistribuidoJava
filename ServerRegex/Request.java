@@ -18,9 +18,9 @@ public class Request extends Thread {
       System.out.println(msgIn);
 			String[] url = msgIn.split("/");
 			String[] params = url[1].split("&");
-			String msgOut = "res/"
+			String msgOut = "res/";
 			for (int i=0;i < params.length ; i++) {
-				String[] values params[i].split("=");
+				String[] values = params[i].split("=");
 				boolean rigth;
 				if (values[0].equals("")) {
 					rigth = false;

@@ -27,21 +27,21 @@ public class aes extends crypter{
         //Encriptar
         System.out.println("$$"+mes);
         byte[] mesBy = mes.getBytes();
-        
+
         System.out.println("$$" + mesBy);
-        
-        
+
+
         byte[] mesC = c.doFinal(mesBy);
-        
+
         System.out.println("$$" + mesC);
-        
-        
+
+
         String mesC64 = new BASE64Encoder().encode(mesC);
-        
+
         System.out.println("$$" + mesC64);
         return mesC64;
-        
-           
+
+
     }
     private SecretKey generateKey(byte[] ksby)throws Exception {
         System.out.println("Llave a usar: "+ksby);
@@ -64,14 +64,12 @@ public class aes extends crypter{
         System.out.println("##"+mesD);
         return mesD;
     }
-    
+
     private SecretKey generateKey(String ks, int size)throws Exception {
         switch(size){
             case 128:
                 while(ks.length()>16) ks = ks.substring(0, ks.length()-2);
                 while(ks.length()<16) ks += " ";
-                
-                
             break;
             case 192:
                 while(ks.length()>24) ks = ks.substring(0, ks.length()-2);

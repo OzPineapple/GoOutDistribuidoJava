@@ -5,19 +5,22 @@ import java.io.*;
 * @author Zush18
 **/
 
-public class hilo extends Thread {
+public class Request extends Thread {
 	private SocketIO socket;
-	public hilo(Socket socket) throws Exception{
+	public Request(Socket socket) throws Exception{
 		this.socket = new SocketIO (socket);
 	}
 	@Override
 	public void run(){
 		try{
-      String msgIn = socketDatos.readMsg();
+			/*crypt.crypter c1 = new aes();
+			crypt.crypter c2 = new des();
+			String msg = c1.encrypt("nfidovfd","cds");*/
+      String msgIn = socket.readMsg();
       System.out.println(msgIn);
       String msgOut = "Hi I'm a host";
-			socketDatos.sendMsg(msgOut);
-			socketDatos.close( );
+			socket.sendMsg(msgOut);
+			socket.close( );
 		}catch(Exception ex){
 			ex.printStackTrace( );
 		}

@@ -8,15 +8,12 @@ public class Server {
 
  	public static void main(String[] args) {
 			try {
-        listen(5000);
+        ServerSocket socketConexion = new ServerSocket(5000);
+        while(true)	{
+          new Request(socketConexion.accept()).start();
+        }
 			}catch (Exception ex) {
 				ex.printStackTrace( );
 			}
 	}
-  private void listen(int port) throws Exception{
-    ServerSocket socketConexion = new ServerSocket(port);
-    while(true)	{
-      new hilo(socketConexion.accept()).start();
-    }
-  }
 }

@@ -15,11 +15,28 @@ public class Request extends Thread {
 		try{
       String msgIn = socket.readMsg();
       System.out.println(msgIn);
-      String msgOut = "Hi I'm a Server";
-			socket.sendMsg(msgOut);
-			socket.close( );
+			String url[] = msgIn.split(":");
+			SocketIO socketClient;
+			String hostClient;
+			int portCLient;
+			switch(url[0]){
+				case "regex":
+					hostClient = "localhost";
+					portCLient = 1000;
+				break;
+				case "crypt":
+				hostClient = "localhost";
+				portCLient = 2000;
+				break;
+				default:
+					url[1] = "406"
+			}
+			socket.sendMsg(url[1]);
+			socket.close();
 		}catch(Exception ex){
-			ex.printStackTrace( );
+			socket.sendMsg("500");
+			socket.close();
+			ex.printStackTrace();
 		}
 	}
 }

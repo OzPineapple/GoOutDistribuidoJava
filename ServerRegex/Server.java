@@ -8,7 +8,7 @@ public class Server {
 
  	public static void main(String[] args) {
 			try {
-        ServerSocket socketConexion = new ServerSocket(5000);
+        Server socketConexion = new Server(5000);
         while(true)	{
           new Request(socketConexion.accept()).start();
         }

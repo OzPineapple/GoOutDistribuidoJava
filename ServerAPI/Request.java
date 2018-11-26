@@ -26,24 +26,30 @@ public class Request extends Thread {
 		System.out.println("Reciviendo respuesta "+msgIn);
 		return msgIn;
 	}
+	public String getBack(String msgIn) throws Exception{
+		String msgOut = "";
+		String url[] = msgIn.split(":");
+		switch(url[0]){
+			case "regex":
+				msgOut = regexServe(url[1]);
+				System.out.println("Respuesta - "+msgOut);
+			break;
+			case "crypt":
+				msgOut = cryptServe(url[1]);
+				System.out.println("Respuesta - "+msgOut);
+			break;
+		}
+		return msgOut;
+	}
 	@Override
 	public void run(){
 		try{
-      String msgIn = socket.readMsg();
-      System.out.println("Solicitud - "+msgIn);
-			String url[] = msgIn.split(":");
-			String msgOut;
-			switch(url[0]){
-				case "regex":
-					msgOut = regexServe(url[1]);
-					socket.sendMsg(msgOut);
-					System.out.println("Respuesta - "+msgOut);
-				break;
-				case "crypt":
-					msgOut = cryptServe(url[1]);
-					socket.sendMsg(msgOut);
-					System.out.println("Respuesta - "+msgOut);
-				break;
+			try {
+				String msgIn = socket.readMsg();
+				System.out.println("Solicitud - "+msgIn);
+				socket.sendMsg(getBack(msgIn));
+			}catch(Exception ex){
+				ex.printStackTrace();
 			}
 			socket.close();
 		}catch(Exception ex){

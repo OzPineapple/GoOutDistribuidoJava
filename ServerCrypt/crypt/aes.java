@@ -19,6 +19,7 @@ public class aes extends crypter{
     private static final String Algo ="AES";
     @Override
     public String encrypt(String mes, String ks, int size)throws Exception{
+        System.out.println(mes+"\n|");
         //Generar llave
         Key key = generateKey(ks, size);
         //Instanciar al chiper
@@ -28,7 +29,7 @@ public class aes extends crypter{
         byte[] mesBy = mes.getBytes();
         byte[] mesC = c.doFinal(mesBy);
         String mesC64 = new BASE64Encoder().encode(mesC);
-        System.out.println(mes + " -> " + mesC64);
+        System.out.println("v\n" + mesC64);
         return mesC64;
     }
     private SecretKey generateKey(byte[] ksby)throws Exception {
@@ -38,6 +39,7 @@ public class aes extends crypter{
     }
     @Override
     public String decrypt(String mes, String ks, int size)throws Exception{
+        System.out.println(mes+"\n|");
         //Instanciar cipher
         Cipher c = Cipher.getInstance(Algo);
         SecretKey key = generateKey(ks, size);
@@ -46,7 +48,7 @@ public class aes extends crypter{
         byte[] mes64 = new BASE64Decoder().decodeBuffer(mes);
         byte[] mesDby = c.doFinal(mes64);
         String mesD = new String(mesDby);
-        System.out.println(mes + " -> "+ mesD);
+        System.out.println("v"+ mesD);
         return mesD;
     }
 

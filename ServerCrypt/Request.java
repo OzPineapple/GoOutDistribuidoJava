@@ -13,26 +13,26 @@ public class Request extends Thread {
 	public Request(Socket socket) throws Exception{
 		this.socket = new SocketIO (socket);
 	}
+	public String getBack(String url){
+		String msgOut = "res|msg~";
+		crypter crypt = new aes();
+		String value = msgIn.substring(msgIn.indexOf("~")+1);
+		switch (msgIn.substring(0,msgIn.indexOf("|"))) {
+			case "encrypt":
+				msgOut += crypt.encrypt(value,"d6F3Efeqd6F3Efeq",256);
+			break;
+			case "decrypt":
+				msgOut += crypt.decrypt(value,"d6F3Efeqd6F3Efeq",256);
+			break;
+		}
+		return msgOut;
+	}
 	@Override
 	public void run(){
 		try{
       String msgIn = socket.readMsg();
       System.out.println("Solicitud - "+msgIn);
-			String[] url = msgIn.split("/");
-			String[] params = url[1].split("&");
-			String msgOut = "res|";
-			crypter crypt = new aes();
-			for (int i=0;i < params.length ; i++) {
-				String[] values = params[i].split("~");
-				switch (url[0]) {
-					case "encrypt":
-						msgOut += values[0]+"~"+ crypt.encrypt(values[1],"d6F3Efeqd6F3Efeq",256)+"&";
-					break;
-					case "decrypt":
-						msgOut += values[0]+"~"+ crypt.decrypt(values[1],"d6F3Efeqd6F3Efeq",256)+"&";
-					break;
-				}
-			}
+			String msgOut = getBack(msgIn);
 			System.out.println("Respuesta - "+msgOut);
 			socket.sendMsg(msgOut);
 			socket.close( );

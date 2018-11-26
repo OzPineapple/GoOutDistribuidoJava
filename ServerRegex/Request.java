@@ -26,7 +26,7 @@ public class Request extends Thread {
 					rigth = false;
 				}else{
 					switch (url[0]) {
-						case "noEsUnNumeroEntero":
+						case "integer":
 							rigth = check.noEsUnNumeroEntero(values[1]);
 						break;
 						case "noEsAlfabetico":
@@ -35,9 +35,15 @@ public class Request extends Thread {
 						case "noEsAlfanumerico":
 							rigth = check.noEsAlfanumerico(values[1]);
 						break;
+						case "usuario":
+							rigth = check.usuario(values[1]);
+						break;
+						case "pass":
+							rigth = check.contraseña(values[1]);
+						break;
 					}
 				}
-				msgOut += values[0]+"="+ ((rigth)? "true":"false");
+				msgOut += values[0]+"="+ ((!rigth)? "true":check.getMensaje());
 			}
 			System.out.println("Respuesta - "+msgOut);
 			socket.sendMsg(msgOut);

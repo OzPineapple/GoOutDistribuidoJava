@@ -20,16 +20,16 @@ public class Request extends Thread {
       System.out.println("Solicitud - "+msgIn);
 			String[] url = msgIn.split("/");
 			String[] params = url[1].split("&");
-			String msgOut = "res/";
+			String msgOut = "res|";
 			crypter crypt = new aes();
 			for (int i=0;i < params.length ; i++) {
 				String[] values = params[i].split("=");
 				switch (url[0]) {
 					case "encrypt":
-						msgOut += values[0]+"="+ crypt.encrypt(values[1],"d6F3Efeqd6F3Efeq",256);
+						msgOut += values[0]+"~"+ crypt.encrypt(values[1],"d6F3Efeqd6F3Efeq",256)+"&";
 					break;
 					case "decrypt":
-						msgOut += values[0]+"="+ crypt.decrypt(values[1],"d6F3Efeqd6F3Efeq",256);
+						msgOut += values[0]+"~"+ crypt.decrypt(values[1],"d6F3Efeqd6F3Efeq",256)+"&";
 					break;
 				}
 			}

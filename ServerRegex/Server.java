@@ -8,9 +8,11 @@ public class Server {
 
  	public static void main(String[] args) {
 			try {
-        Server socketConexion = new Server(5000);
+        ServerSocket socketConexion = new ServerSocket(Integer.parseInt(args[0]));
+        System.out.println("Servidor API escuchando en "+args[0]);
         while(true)	{
           new Request(socketConexion.accept()).start();
+          System.out.println("Conexion aceptada");
         }
 			}catch (Exception ex) {
 				ex.printStackTrace( );

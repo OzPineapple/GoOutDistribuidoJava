@@ -10,33 +10,43 @@ public class Request extends Thread {
 	public Request(Socket socket) throws Exception{
 		this.socket = new SocketIO (socket);
 	}
+	public String regexServe(String url) throws Exception{
+		System.out.println("Enviando solicitud regex "+url);
+		SocketIO s = new SocketIO("localhost",1001);
+		s.sendMsg(url);
+		String msgIn = s.readMsg();
+		System.out.println("Reciviendo respuesta "+msgIn);
+		return msgIn;
+	}
+	public String cryptServe(String url) throws Exception{
+		System.out.println("Enviando solicitud crypt "+url);
+		SocketIO s = new SocketIO("localhost",1002);
+		s.sendMsg(url);
+		String msgIn = s.readMsg();
+		System.out.println("Reciviendo respuesta "+msgIn);
+		return msgIn;
+	}
 	@Override
 	public void run(){
 		try{
       String msgIn = socket.readMsg();
-      System.out.println(msgIn);
+      System.out.println("Solicitud - "+msgIn);
 			String url[] = msgIn.split(":");
-			SocketIO socketClient;
-			String hostClient;
-			int portCLient;
+			String msgOut;
 			switch(url[0]){
 				case "regex":
-					hostClient = "localhost";
-					portCLient = 1000;
+					msgOut = regexServe(url[1]);
+					socket.sendMsg(msgOut);
+					System.out.println("Respuesta - "+msgOut);
 				break;
 				case "crypt":
-					hostClient = "localhost";
-					portCLient = 2000;
+					msgOut = cryptServe(url[1]);
+					socket.sendMsg(msgOut);
+					System.out.println("Respuesta - "+msgOut);
 				break;
 			}
-			socketClient = new SocketIO(hostClient,portCLient);
-			socketClient.sendMsg(url[1]);
-			String msgInClient = socketClient.readMsg();
-			socket.sendMsg(msgInClient);
 			socket.close();
 		}catch(Exception ex){
-			socket.sendMsg("500");
-			socket.close();
 			ex.printStackTrace();
 		}
 	}

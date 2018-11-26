@@ -17,7 +17,7 @@ public class Request extends Thread {
 	public void run(){
 		try{
       String msgIn = socket.readMsg();
-      System.out.println(msgIn);
+      System.out.println("Solicitud - "+msgIn);
 			String[] url = msgIn.split("/");
 			String[] params = url[1].split("&");
 			String msgOut = "res/";
@@ -33,11 +33,10 @@ public class Request extends Thread {
 					break;
 				}
 			}
+			System.out.println("Respuesta - "+msgOut);
 			socket.sendMsg(msgOut);
 			socket.close( );
 		}catch(Exception ex){
-			socket.sendMsg("500");
-			socket.close( );
 			ex.printStackTrace( );
 		}
 	}

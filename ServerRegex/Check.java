@@ -142,7 +142,7 @@ public class Check {
      * @param var Cadena a validar
      * @return boleano
      */
-    private boolean noEsAlfanumerico(String var){
+    public boolean noEsAlfanumerico(String var){
         if(!this.RegexMatch(alfanumerico, var)){
             this.mensaje = "no es alfanumerico";
             return true;
@@ -158,7 +158,7 @@ public class Check {
      * @return booleano
      * @see Checador#RegexMatch(String regex, String var)
      */
-    private boolean noEsUnCorreo(String var){
+    public boolean noEsUnCorreo(String var){
         if(!this.RegexMatch(correo, var)){
             this.mensaje = "no es un correo";
             return true;
@@ -174,7 +174,7 @@ public class Check {
      * @return booleano
      * @see Checador#RegexFind(java.lang.String, java.lang.String)
      */
-    private boolean tieneComillas(String var){
+    public boolean tieneComillas(String var){
         if(this.RegexFind(comillas, var)){
             this.mensaje = "no pude contener comillas simples o dobles";
             return true;
@@ -190,7 +190,7 @@ public class Check {
      * @return booleano
      * @see Checador#RegexFind(java.lang.String, java.lang.String)
      */
-    private boolean estaVacio(String var){
+    public boolean estaVacio(String var){
         if( var == null){
             this.mensaje = "esta vacio";
             return true;
@@ -210,7 +210,7 @@ public class Check {
      * @return booleano
      * @see Checador#RegexMatch(String regex, String var)
      */
-    private boolean estaMalLongitud(String var,int min,int max){
+    public boolean estaMalLongitud(String var,int min,int max){
         if (var.length()<min) {
             this.mensaje="no puede ser de longitud menor a "+min;
             return true;
@@ -230,7 +230,7 @@ public class Check {
      * @return booleano
      * @see Checador#RegexMatch(java.lang.String, java.lang.String)
      */
-    private boolean noEsUnNumeroEntero(String var){
+    public boolean noEsUnNumeroEntero(String var){
         if(!this.RegexMatch(this.numInt, var)){
             this.mensaje = "no es un número entero";
             return true;
@@ -246,7 +246,7 @@ public class Check {
      * @return booleano
      * @see Checador#RegexMatch(java.lang.String, java.lang.String)
      */
-    private boolean noEsUnNumeroDecimal(String var){
+    public boolean noEsUnNumeroDecimal(String var){
         if(!this.RegexMatch(this.numFloat, var)){
             this.mensaje = "no es un número decimal";
             return true;
@@ -262,7 +262,7 @@ public class Check {
      * @return booleano
      * @see Checador#RegexMatch(java.lang.String, java.lang.String)
      */
-    private boolean noEsAlfabetico(String var){
+    public boolean noEsAlfabetico(String var){
         if(!this.RegexMatch(this.alfabeto, var)){
             this.mensaje = "no contiene solamente caracteres alfabeticos";
             return true;
@@ -279,7 +279,7 @@ public class Check {
      * @param var Cadena a validar
      * @return booleano
      */
-    private boolean RegexMatch(String regex, String var){
+    public boolean RegexMatch(String regex, String var){
         p = Pattern.compile(regex);
         m = p.matcher(var);
         return m.matches();
@@ -292,7 +292,7 @@ public class Check {
      * @param var Cadena a validar
      * @return booleano
      */
-    private boolean RegexFind(String regex, String var){
+    public boolean RegexFind(String regex, String var){
         p = Pattern.compile(regex);
         m = p.matcher(var);
         return m.find();

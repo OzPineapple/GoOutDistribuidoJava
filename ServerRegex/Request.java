@@ -15,13 +15,13 @@ public class Request extends Thread {
 		try{
 			Check check = new Check();
 			String msgIn = socket.readMsg();
-      System.out.println(msgIn);
+      System.out.println("Solicitud - "+msgIn);
 			String[] url = msgIn.split("/");
 			String[] params = url[1].split("&");
 			String msgOut = "res/";
 			for (int i=0;i < params.length ; i++) {
 				String[] values = params[i].split("=");
-				boolean rigth;
+				boolean rigth = false;
 				if (values[0].equals("")) {
 					rigth = false;
 				}else{
@@ -39,6 +39,7 @@ public class Request extends Thread {
 				}
 				msgOut += values[0]+"="+ ((rigth)? "true":"false");
 			}
+			System.out.println("Respuesta - "+msgOut);
 			socket.sendMsg(msgOut);
 			socket.close( );
 		}catch(Exception ex){

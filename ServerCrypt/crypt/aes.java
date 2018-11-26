@@ -25,23 +25,11 @@ public class aes extends crypter{
         Cipher c = Cipher.getInstance(Algo);
         c.init(Cipher.ENCRYPT_MODE, key);
         //Encriptar
-        System.out.println("$$"+mes);
         byte[] mesBy = mes.getBytes();
-
-        System.out.println("$$" + mesBy);
-
-
         byte[] mesC = c.doFinal(mesBy);
-
-        System.out.println("$$" + mesC);
-
-
         String mesC64 = new BASE64Encoder().encode(mesC);
-
-        System.out.println("$$" + mesC64);
+        System.out.println(mes + " -> " + mesC64);
         return mesC64;
-
-
     }
     private SecretKey generateKey(byte[] ksby)throws Exception {
         System.out.println("Llave a usar: "+ksby);
@@ -55,13 +43,10 @@ public class aes extends crypter{
         SecretKey key = generateKey(ks, size);
         c.init(Cipher.DECRYPT_MODE, key);
         //Decriptar
-        System.out.println("##"+mes);
         byte[] mes64 = new BASE64Decoder().decodeBuffer(mes);
-        System.out.println("##"+mes64);
         byte[] mesDby = c.doFinal(mes64);
-        System.out.println("##"+mesDby);
         String mesD = new String(mesDby);
-        System.out.println("##"+mesD);
+        System.out.println(mes + " -> "+ mesD);
         return mesD;
     }
 

@@ -15,6 +15,7 @@ public class Request extends Thread {
 		SocketIO s = new SocketIO("localhost",1001);
 		s.sendMsg(url);
 		String msgIn = s.readMsg();
+		s.close();
 		System.out.println("Reciviendo respuesta "+msgIn);
 		return msgIn;
 	}
@@ -23,19 +24,21 @@ public class Request extends Thread {
 		SocketIO s = new SocketIO("localhost",1002);
 		s.sendMsg(url);
 		String msgIn = s.readMsg();
+		s.close();
 		System.out.println("Reciviendo respuesta "+msgIn);
 		return msgIn;
 	}
-	public String getBack(String msgIn) throws Exception{
+	public String getBack(String url) throws Exception{
 		String msgOut = "";
-		String url[] = msgIn.split(":");
-		switch(url[0]){
+		String data = url.substring(url.indexOf(":")+1);
+		System.out.println("DATA: "+data);
+		switch(url.substring(0,url.indexOf(":"))){
 			case "regex":
-				msgOut = regexServe(url[1]);
+				msgOut = regexServe(data);
 				System.out.println("Respuesta - "+msgOut);
 			break;
 			case "crypt":
-				msgOut = cryptServe(url[1]);
+				msgOut = cryptServe(data);
 				System.out.println("Respuesta - "+msgOut);
 			break;
 		}

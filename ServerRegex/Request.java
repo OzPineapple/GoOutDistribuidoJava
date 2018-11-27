@@ -11,10 +11,10 @@ public class Request extends Thread {
 		this.socket = new SocketIO (socket);
 	}
 	public String getBack(String url) {
-		String value = url.substring(url.indexOf("=")+1);
+		String value = url.substring(url.indexOf("|")+1);
 		boolean rigth = false;
 		Check check = new Check();
-		switch (url.substring(0,url.indexOf("/"))) {
+		switch (url.substring(0,url.indexOf("|"))) {
 			case "integer":
 				rigth = check.noEsUnNumeroEntero(value);
 			break;
@@ -25,7 +25,7 @@ public class Request extends Thread {
 				rigth = check.contraseña(value);
 			break;
 		}
-		return "res/msg=" + ((!rigth)? "true":check.getMensaje());
+		return ((!rigth)? "true":check.getMensaje());
 	}
 	@Override
 	public void run(){

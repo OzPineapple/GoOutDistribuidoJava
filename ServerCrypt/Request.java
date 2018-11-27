@@ -13,16 +13,16 @@ public class Request extends Thread {
 	public Request(Socket socket) throws Exception{
 		this.socket = new SocketIO (socket);
 	}
-	public String getBack(String url){
-		String msgOut = "res|msg~";
+	public String getBack(String url) throws Exception{
+		String msgOut = "";
 		crypter crypt = new aes();
-		String value = msgIn.substring(msgIn.indexOf("~")+1);
-		switch (msgIn.substring(0,msgIn.indexOf("|"))) {
+		String value = url.substring(url.indexOf("|")+1);
+		switch (url.substring(0,url.indexOf("|"))) {
 			case "encrypt":
-				msgOut += crypt.encrypt(value,"d6F3Efeqd6F3Efeq",256);
+				msgOut = crypt.encrypt(value,"d6F3Efeqd6F3Efeq",256);
 			break;
 			case "decrypt":
-				msgOut += crypt.decrypt(value,"d6F3Efeqd6F3Efeq",256);
+				msgOut = crypt.decrypt(value,"d6F3Efeqd6F3Efeq",256);
 			break;
 		}
 		return msgOut;

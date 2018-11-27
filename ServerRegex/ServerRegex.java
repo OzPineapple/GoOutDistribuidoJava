@@ -6,12 +6,15 @@ public class ServerRegex {
   public static void main(String[] args) throws Exception{
     int puerto = Integer.parseInt(args[0]);
     ServerSocket socketConexion = new ServerSocket(puerto);
+    System.out.println("puerto establecido en el "+puerto);
     while (true) {
       Socket socket = socketConexion.accept();
+      System.out.println("conexion aceptada");
       new Thread(new Runnable(){
         @Override
         public void run(){
           try{
+            System.out.println("Procesando Solicitud");
             procesarSocket(socket);
           }catch (Exception ex) {
             ex.printStackTrace();
@@ -19,16 +22,21 @@ public class ServerRegex {
         }
       }).start();
     }
-    socketConexion.close();
+    //socketConexion.close();
+    //System.out.print("conexion cerrada");
   }
   public static void procesarSocket(Socket socket) throws Exception{
+    System.out.println("Crendo flujos");
     InputStream flujoEntrada = socket.getInputStream();
     BufferedReader entrada =  new BufferedReader(new InputStreamReader(flujoEntrada));
     OutputStream flujoSalida = socket.getOutputStream();
     PrintWriter salida =  new PrintWriter(new OutputStreamWriter(flujoSalida));
+    System.out.println("Leyendo entrada");
     String rec = entrada.readLine();
+    System.out.println("Procesando url");
     String res1 = getBack(rec);
-    salida.write(res1);
+    System.out.println("Enviando respuesta");
+    salida.println(res1);
     salida.flush();
     socket.close();
   }
@@ -37,6 +45,7 @@ public class ServerRegex {
 		String value = url.substring(url.indexOf("|")+1);
 		boolean rigth = false;
 		Check check = new Check();
+    System.out.println("Validando regex");
 		switch (url.substring(0,url.indexOf("|"))) {
 			case "integer":
 				rigth = check.noEsUnNumeroEntero(value);

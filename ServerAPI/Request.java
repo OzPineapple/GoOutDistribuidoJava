@@ -17,7 +17,7 @@ public class Request extends Thread {
  		BufferedReader entrada =  new BufferedReader(new InputStreamReader(flujoEntrada));
  		OutputStream flujoSalida = socket.getOutputStream();
  		PrintWriter salida =  new PrintWriter(new OutputStreamWriter(flujoSalida));
-		salida.write(url);
+		salida.println(url);
 		salida.flush();
 		String res = entrada.readLine();
 		socket.close();
@@ -25,45 +25,36 @@ public class Request extends Thread {
 	}
 
 
-	public String cryptServe(String url){
+	public String cryptServe(String url) throws Exception{
 		//Mike
 
-		//Ip de ServerCrypt en este caso es localhost :3
-		InetAddress server = InetAddress.getByName("localhost");
+		//Instancia para crear el socket
+		Socket socketCliente = new Socket("localhost", 1002);
 
-		//Variable int para la longitud
-		int longitud = 25;
+		//Se crean los flujos de entrada
+		InputStream in = socketCliente.getInputStream();
 
-		//Mi puerto ya está establecido, no se recibe de ninguna insercion
-		int puertoServer = 1002;
+		//Se hace la el objeto de BufferedReader para poder leer lo que recibe
+		BufferedReader msg = new BufferedReader(new InputStreamReader(in));
 
-		//Pues aquí hice mi instancia del socket de datagrama :v
-		DatagramSocket clientSocket = new DatagramSocket();
+		//Se crean los flujos de salida
+		OutputStream out = socketCliente.getOutputStream();
 
-		//Se crea un primer mensaje para preparar el servidor de 25 bytes
-		byte[] msg1 = url.getBytes().lenght;
+		//Se crea un portal para poder leerlo
+		PrintWriter mensaje = new PrintWriter(new OutputStreamWriter(out));
 
-		//Se usa para enviar el mensaje para prepararse
-		DatagramPacket dataMsg1 = new DatagramPacket(msg1, msg1.lenght, server, 1002);
-		clientSocket.send(dataMsg1);//Primer mensaje de preparacion
+		//Aquí se imprime el url y con el metodo flush se manda al servidor
+		mensaje.println(url);
+		mensaje.flush();
 
-		//Como es un socket de datagrama, se debe convertir el String en un arreglo de bytes :')
-		//En este caso se utilizó un if para poder mandar datagramas con la correcta longitud
-		byte[] msg = url.getBytes();
+		//Esta variable llamada input lee lo que se recibe del servidor
+		String criptado = msg.readLine();
 
-		//Se usar para poder enviar el datagrama real
-		DatagramPacket dataMsg = new DatagramPacket(msg, msg.lenght, server, 1002);
+		//Se cierra el socket
+		socketCliente.close();
 
-		//Se usa el mètodo send() para enviar el datagrama, el parámetro que se recibe es el datagrama
-		clientSocket.send(dataMsg);//Datagrama real
-
-		//Ya cierra la cola socket!!!
-		clientSocket.close();
-		/*-----------------------------A partir de este punto el client será el receptor del datagrama-----------------------------------*/
-
-		int puertoClient = 1000;
-
-
+		//Se retorna el mensaje criptado
+		return criptado;
 
 	}
 	public String getBack(String url) throws Exception{
